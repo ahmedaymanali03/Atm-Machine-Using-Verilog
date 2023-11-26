@@ -1,9 +1,9 @@
-module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Operation,password,opCode,ATMUsageFinished);
-    input wire clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Operation;
+module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Operation,password,opCode,Language,ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully);
+    input wire clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Operation, Language;
     input wire [3:0]password;
     input wire [1:0]opCode;
     integer inputAmount;
-    output ATMUsageFinished; 
+    output reg ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully; 
     reg [31:0] Existing_Balance = 32'h000F4240;
     reg [3:0]  Correct_Pass = 4'b1010;
     localparam  [3:0] Idle = 4'b0000, //Done
@@ -14,7 +14,8 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
                       check_Balance= 4'b0101, //ayman DONE
                       update_balance= 4'b0110, //ayman DONE
                       display_Balance= 4'b0111, //kassab DONE
-                      eject_Card= 4'b1000;//kassab DONE
+                      eject_Card= 4'b1000,//kassab DONE
+                      choose_Language = 4'b1001; //after Idle state
 
     reg   [3:0]     current_state,
                      next_state;
@@ -39,16 +40,28 @@ case(current_state)
 	  
 Idle: begin
 				if(cardIn == 1'b1)
-					next_state = enter_Pin ;
+					next_state = choose_Language ;
 				else if (cardIn == 1'b0)
 					next_state = Idle ;	
+                else
+				    next_state = Idle ;
+			end
+choose_Language: begin
+				if(Language == 1'b0)
+									next_state = choose_Language ;
+								else if (Language == 1'b1)
+									next_state = enter_Pin;
+								else
+									next_state = choose_Language ;	
 			end
 
 enter_Pin: begin
 									if(correctPassword ==0)
                                     next_state = enter_Pin;
                                     else if (correctPassword==1)
-                                    next_state = choose_Transaction;							
+                                    next_state = choose_Transaction;
+                                    else 
+                                    next_state= enter_Pin;							
 end
 choose_Transaction: begin
     if(opCode==2'b00)
@@ -59,6 +72,8 @@ choose_Transaction: begin
     next_state = deposit;
     else if (opCode == 2'b11)
     next_state = withdraw;
+    else 
+    next_state= choose_Transaction;
     end
 deposit     						: begin
 								if(moneyDeposited)
@@ -98,10 +113,74 @@ display_Balance:begin
 eject_Card: begin
               next_state = Idle;
             end     
-                  
-
-
-
+default :          next_state = Idle;         
 endcase
 end
+// next_state logic
+always @(*)
+ begin
+  case(current_state)
+  Idle :begin
+                                    ATM_Usage_Finished        = 1'b0;   
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b0;
+  end
+  enter_Pin :begin
+                                    ATM_Usage_Finished        = 1'b0;   
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b0;
+  end
+  choose_Transaction :begin
+                                    ATM_Usage_Finished        = 1'b0;   
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b0;
+  end
+  deposit :begin
+                                    ATM_Usage_Finished        = 1'b0;   
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b1;
+									Withdrawed_Successfully   = 1'b0;
+  end
+  withdraw :begin
+                                    ATM_Usage_Finished        = 1'b0;   
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b1;
+  end
+  check_Balance :begin
+                                    ATM_Usage_Finished        = 1'b0;   
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b0;
+  end
+  update_balance :begin
+                                    ATM_Usage_Finished        = 1'b0;   
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b0;
+  end
+  display_Balance :begin
+                                    ATM_Usage_Finished        = 1'b0;   
+									Balance_Shown             = 1'b1;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b0;
+  end
+  eject_Card :begin
+                                    ATM_Usage_Finished        = 1'b1;   
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b0;
+  end
+  default :begin
+                                    ATM_Usage_Finished        = 1'b0;   
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b0;
+  end
+  
+  endcase
+ end
 endmodule
