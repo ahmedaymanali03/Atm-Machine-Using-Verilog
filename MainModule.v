@@ -20,9 +20,9 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
                      next_state;
                      
 // state transition
-     always @(posedge clk or negedge reset)
+     always @(posedge clk or posedge reset)
  begin
-  if(!reset)
+  if(reset)
    begin
      current_state <= Idle ;
    end
