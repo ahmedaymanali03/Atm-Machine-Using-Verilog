@@ -1,21 +1,21 @@
-module ATM ();
+module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Operation,password,opCode,ATMUsageFinished);
     input wire clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Operation;
     input wire [3:0]password;
     input wire [1:0]opCode;
-    input integer wire inputAmount,balance;
-    output ATMUsageFinished;
-    wire 
+    integer inputAmount;
+    output ATMUsageFinished; 
     reg [31:0] Existing_Balance = 32'h000F4240;
     reg [3:0]  Correct_Pass = 4'b1010;
-    localparam  [3:0] Idle = 4'b0000;
-    enter_Pin = 4'b0001;
-    choose_Transaction = 4'b0010;
-    deposit = 4'b0011; //salma
-    withdraw= 4'b0100; //salma
-    check_Balance= 4'b0101; //ayman DONE
-    update_balance= 4'b0110; //ayman DONE
-    display_Balance= 4'b0111; //kassab DONE
-    eject_Card= 4'b1000;//kassab DONE
+    localparam  [3:0] Idle = 4'b0000,
+                      enter_Pin = 4'b0001,
+                      choose_Transaction = 4'b0010,
+                      deposit = 4'b0011, //salma
+                      withdraw= 4'b0100, //salma
+                      check_Balance= 4'b0101, //ayman DONE
+                      update_balance= 4'b0110, //ayman DONE
+                      display_Balance= 4'b0111, //kassab DONE
+                      eject_Card= 4'b1000;//kassab DONE
+
     reg   [3:0]     current_state,
                      next_state;
                      
@@ -45,7 +45,7 @@ Idle: begin
 			end
 
 check_Balance: begin
-                if(inputAmount > balance)
+                if(inputAmount > Existing_Balance)
                   next_state = withdraw;
                 else
                   next_state = update_balance;	
@@ -54,9 +54,9 @@ check_Balance: begin
 update_balance: begin
                   next_state = display_Balance;
                   if (moneyDeposited)
-                    balance = balance + inputAmount;
+                    Existing_Balance = Existing_Balance + inputAmount;
                   else if (inputAmount)
-                    balance = balance - inputAmount;
+                    Existing_Balance = Existing_Balance - inputAmount;
                 end
 display_Balance:begin
                     if (ejectCard)
