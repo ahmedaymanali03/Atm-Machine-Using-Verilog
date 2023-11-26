@@ -9,8 +9,8 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
     localparam  [3:0] Idle = 4'b0000,
                       enter_Pin = 4'b0001,
                       choose_Transaction = 4'b0010,
-                      deposit = 4'b0011, //salma
-                      withdraw= 4'b0100, //salma
+                      deposit = 4'b0011, //salma :)
+                      withdraw= 4'b0100, //salma  :)
                       check_Balance= 4'b0101, //ayman DONE
                       update_balance= 4'b0110, //ayman DONE
                       display_Balance= 4'b0111, //kassab DONE
@@ -44,6 +44,21 @@ Idle: begin
 					next_state = Idle ;	
 			end
 
+deposit     						: begin
+								if(moneyDeposited)
+									next_state = update_balance ;
+								else 
+									next_state = deposit ;	
+											  
+								end
+withdraw     						: begin
+								if(inputAmount)
+									next_state = check_Balance ;
+								else 
+									next_state = withdraw ;	
+											  
+								end            
+
 check_Balance: begin
                 if(inputAmount > Existing_Balance)
                   next_state = withdraw;
@@ -66,7 +81,8 @@ display_Balance:begin
                 end
 eject_Card: begin
               next_state = Idle;
-            end                
+            end     
+                  
 
 
 
