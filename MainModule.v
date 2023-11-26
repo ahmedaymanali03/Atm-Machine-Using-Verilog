@@ -6,9 +6,9 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
     output ATMUsageFinished; 
     reg [31:0] Existing_Balance = 32'h000F4240;
     reg [3:0]  Correct_Pass = 4'b1010;
-    localparam  [3:0] Idle = 4'b0000,
-                      enter_Pin = 4'b0001,
-                      choose_Transaction = 4'b0010,
+    localparam  [3:0] Idle = 4'b0000, //Done
+                      enter_Pin = 4'b0001,//DONE
+                      choose_Transaction = 4'b0010,//DONE
                       deposit = 4'b0011, //salma :)
                       withdraw= 4'b0100, //salma  :)
                       check_Balance= 4'b0101, //ayman DONE
@@ -44,6 +44,22 @@ Idle: begin
 					next_state = Idle ;	
 			end
 
+enter_Pin: begin
+									if(correctPassword ==0)
+                                    next_state = enter_Pin;
+                                    else if (correctPassword==1)
+                                    next_state = choose_Transaction;							
+end
+choose_Transaction: begin
+    if(opCode==2'b00)
+    next_state= choose_Transaction;
+    else if (opCode ==2'b01)
+    next_state= display_Balance;
+    else if (opCode == 2'b10)
+    next_state = deposit;
+    else if (opCode == 2'b11)
+    next_state = withdraw;
+    end
 deposit     						: begin
 								if(moneyDeposited)
 									next_state = update_balance ;
