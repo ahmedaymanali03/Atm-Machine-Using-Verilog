@@ -15,7 +15,8 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
                       update_balance= 4'b0110, //ayman DONE
                       display_Balance= 4'b0111, //kassab DONE
                       eject_Card= 4'b1000,//kassab DONE
-                      choose_Language = 4'b1001; //after Idle state
+                      Insert_Card = 4'b1010,//after Idle state 
+                      choose_Language = 4'b1001; //after insert card state
 
     reg   [3:0]     current_state,
                      next_state;
@@ -46,6 +47,9 @@ Idle: begin
                 else
 				    next_state = Idle ;
 			end
+Insert_Card     				: begin
+									next_state = choose_Language ;			  
+								end
 choose_Language: begin
 				if(Language == 1'b0)
 									next_state = choose_Language ;
@@ -121,61 +125,73 @@ always @(*)
  begin
   case(current_state)
   Idle :begin
-                                    ATM_Usage_Finished        = 1'b0;   
+                  ATM_Usage_Finished        = 1'b0;   
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b0;
+  end
+  choose_Language :begin
+                  ATM_Usage_Finished        = 1'b1;   
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b0;
+  end
+  Insert_Card :begin
+                  ATM_Usage_Finished        = 1'b1;   
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
   end
   enter_Pin :begin
-                                    ATM_Usage_Finished        = 1'b0;   
+                  ATM_Usage_Finished        = 1'b0;   
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
   end
   choose_Transaction :begin
-                                    ATM_Usage_Finished        = 1'b0;   
+                  ATM_Usage_Finished        = 1'b0;   
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
   end
   deposit :begin
-                                    ATM_Usage_Finished        = 1'b0;   
+                  ATM_Usage_Finished        = 1'b0;   
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b1;
 									Withdrawed_Successfully   = 1'b0;
   end
   withdraw :begin
-                                    ATM_Usage_Finished        = 1'b0;   
+                  ATM_Usage_Finished        = 1'b0;   
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b1;
   end
   check_Balance :begin
-                                    ATM_Usage_Finished        = 1'b0;   
+                  ATM_Usage_Finished        = 1'b0;   
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
   end
   update_balance :begin
-                                    ATM_Usage_Finished        = 1'b0;   
+                  ATM_Usage_Finished        = 1'b0;   
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
   end
   display_Balance :begin
-                                    ATM_Usage_Finished        = 1'b0;   
+                  ATM_Usage_Finished        = 1'b0;   
 									Balance_Shown             = 1'b1;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
   end
   eject_Card :begin
-                                    ATM_Usage_Finished        = 1'b1;   
+                  ATM_Usage_Finished        = 1'b1;   
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
   end
   default :begin
-                                    ATM_Usage_Finished        = 1'b0;   
+                  ATM_Usage_Finished        = 1'b0;   
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
