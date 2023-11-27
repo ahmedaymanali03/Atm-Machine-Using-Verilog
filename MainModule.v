@@ -47,9 +47,7 @@ Idle: begin
 				    next_state = Idle ;
 			end
 choose_Language: begin
-				if(Language == 1'b0)
-									next_state = choose_Language ;
-								else if (Language == 1'b1)
+				 if (Language)
 									next_state = enter_Pin;
 								else
 									next_state = choose_Language ;	
@@ -121,6 +119,12 @@ always @(*)
  begin
   case(current_state)
   Idle :begin
+                                    ATM_Usage_Finished        = 1'b0;   
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b0;
+  end
+   choose_Language :begin
                                     ATM_Usage_Finished        = 1'b0;   
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
