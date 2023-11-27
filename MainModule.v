@@ -48,7 +48,10 @@ Idle: begin
 				    next_state = Idle ;
 			end
 Insert_Card     				: begin
-									next_state = choose_Language ;			  
+                  if(cardIn)
+									next_state = choose_Language ;
+                  else
+                  next_state= Insert_Card;			  
 								end
 choose_Language: begin
 				 if (Language)
