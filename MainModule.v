@@ -128,12 +128,6 @@ always @(*)
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
   end
-  choose_Language :begin
-                  ATM_Usage_Finished        = 1'b1;   
-									Balance_Shown             = 1'b0;
-									Deposited_Successfully    = 1'b0;
-									Withdrawed_Successfully   = 1'b0;
-  end
   Insert_Card :begin
                   ATM_Usage_Finished        = 1'b1;   
 									Balance_Shown             = 1'b0;
