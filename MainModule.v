@@ -15,8 +15,7 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
                       update_balance= 4'b0110, //ayman DONE
                       display_Balance= 4'b0111, //kassab DONE
                       eject_Card= 4'b1000,//kassab DONE
-                      Insert_Card = 4'b1010,//after Idle state 
-                      choose_Language = 4'b1001; //after insert card state
+                      choose_Language= 4'b1001;
 
     reg   [3:0]     current_state,
                      next_state;
@@ -47,12 +46,6 @@ Idle: begin
                 else
 				    next_state = Idle ;
 			end
-Insert_Card     				: begin
-                  if(cardIn)
-									next_state = choose_Language ;
-                  else
-                  next_state= Insert_Card;			  
-								end
 choose_Language: begin
 				 if (Language)
 									next_state = enter_Pin;
@@ -127,12 +120,6 @@ always @(*)
   case(current_state)
   Idle :begin
                   ATM_Usage_Finished        = 1'b0;   
-									Balance_Shown             = 1'b0;
-									Deposited_Successfully    = 1'b0;
-									Withdrawed_Successfully   = 1'b0;
-  end
-  Insert_Card :begin
-                  ATM_Usage_Finished        = 1'b1;   
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
