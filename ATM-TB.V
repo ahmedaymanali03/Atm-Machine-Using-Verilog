@@ -146,7 +146,7 @@ begin
 				// seed =j;
 				// $display("seed is %d" , seed);
 
-					for(i=0 ; i<10 ; i=i+1)
+					for(i=0 ; i<100 ; i=i+1)
 					begin
 					
 						#10
@@ -159,7 +159,7 @@ begin
 						opCode_tb                 =$random();
 						inputAmount_tb            =$random();
 		end
-					end
+					
 					
 		$finish;
 
