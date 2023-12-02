@@ -152,7 +152,7 @@ begin
 						#10
 						Reset_tb				  =$random();             
 						Language_tb               =$random();
-						moneyDeposited_tb         =$random();
+						Money_Deposited_tb         =$random();
 						// Service_Chosen_tb         =$random(seed);
 						cardIn_tb                 =$random();
 						Another_Operation_tb      =$random();
