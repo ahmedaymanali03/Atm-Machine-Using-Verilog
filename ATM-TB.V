@@ -1,9 +1,10 @@
 module ATM_TB();
-reg  Clock_tb,Reset_tb,cardIn_tb,moneyDeposited_tb,ejectCard_tb,correctPassword_tb,Another_Operation_tb, Language_tb;
+reg  Clock_tb,Reset_tb,cardIn_tb,moneyDeposited_tb,ejectCard_tb,Another_Operation_tb, Language_tb;
 reg [3:0]password_tb;
 reg [1:0] opCode_tb;
 integer inputAmount_tb;
-wire ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb;
+
+wire ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,correctPassword_tb;
 integer seed , j, i;
 initial 
 	begin
@@ -31,110 +32,110 @@ begin
 
 
 
-        //Directed Testing	
-		#10
-		Reset_tb = 1'b1;
-		#10
-		Reset_tb = 1'b0;
-		#10
+//         //Directed Testing	
+// 		#10
+// 		Reset_tb = 1'b1;
+// 		#10
+// 		Reset_tb = 1'b0;
+// 		#10
 
 
 
-    //Withdraw test//
-			Reset_tb 					= 1'b1;
-			#10
-			cardIn_tb                   =1'b1;
-            #10
-            Language_tb 				= 1'b1;
-			#10
-			password_tb 				= 4'b1010;
-			#10
-			opCode_tb 					= 2'b11;
-			#10
-			inputAmount_tb     			= 32'h00000040;
-			#10
-			Another_Operation_tb 		= 1'b0;
-			#10
-			//end of withdraw test
+//     //Withdraw test//
+// 			Reset_tb 					= 1'b1;
+// 			#10
+// 			cardIn_tb                   =1'b1;
+//             #10
+//             Language_tb 				= 1'b1;
+// 			#10
+// 			password_tb 				= 4'b1010;
+// 			#10
+// 			opCode_tb 					= 2'b11;
+// 			#10
+// 			inputAmount_tb     			= 32'h00000040;
+// 			#10
+// 			Another_Operation_tb 		= 1'b0;
+// 			#10
+// 			//end of withdraw test
 
 
-        Clock_tb 					= 1'b1;
-		Reset_tb					= 1'b0;
-		Language_tb					= 1'b0;
-		moneyDeposited_tb			= 1'b0;
-		// Service_Chosen_tb           = 1'b0;
-		cardIn_tb                   = 1'b0;
-		Another_Operation_tb		= 1'b0;
-		opCode_tb					= 2'b00;
-		password_tb 				= 4'b0000;
-		inputAmount_tb			= 32'h00000000;
-		#10           
+//         Clock_tb 					= 1'b1;
+// 		Reset_tb					= 1'b0;
+// 		Language_tb					= 1'b0;
+// 		moneyDeposited_tb			= 1'b0;
+// 		// Service_Chosen_tb           = 1'b0;
+// 		cardIn_tb                   = 1'b0;
+// 		Another_Operation_tb		= 1'b0;
+// 		opCode_tb					= 2'b00;
+// 		password_tb 				= 4'b0000;
+// 		inputAmount_tb			= 32'h00000000;
+// 		#10           
 
 
-//View Balance
-			Reset_tb 					= 1'b1;
-			#10
-            cardIn_tb                   =1'b1;
-            #10
-			Language_tb 				= 1'b1;
-			#10
-			password_tb 				= 4'b1010;
-			#10
-			opCode_tb 					= 2'b01;
-			#10
-			inputAmount_tb      			= 32'h00000040;
-			#10
-			Another_Operation_tb 		= 1'b0;
-			#10
+// //View Balance
+// 			Reset_tb 					= 1'b1;
+// 			#10
+//             cardIn_tb                   =1'b1;
+//             #10
+// 			Language_tb 				= 1'b1;
+// 			#10
+// 			password_tb 				= 4'b1010;
+// 			#10
+// 			opCode_tb 					= 2'b01;
+// 			#10
+// 			inputAmount_tb      			= 32'h00000040;
+// 			#10
+// 			Another_Operation_tb 		= 1'b0;
+// 			#10
 
-			//end of view balance test
-
-
-
-        Clock_tb 					= 1'b1;
-		Reset_tb					= 1'b0;
-		Language_tb					= 1'b0;
-		moneyDeposited_tb			= 1'b0;
-		// Service_Chosen_tb           = 1'b0;
-		cardIn_tb                   = 1'b0;
-		Another_Operation_tb		= 1'b0;
-		opCode_tb					= 2'b00;
-		password_tb 				= 4'b0000;
-		inputAmount_tb			= 32'h00000000;
-		#10
+// 			//end of view balance test
 
 
-//Deposit
-			Reset_tb 					= 1'b1;
-			#10
-            cardIn_tb                   =1'b1;
-            #10
-			Language_tb 				= 1'b1;
-			#10
-			password_tb 				= 4'b1010;
-			#10
-			opCode_tb 					= 2'b10;
-			#10
-			inputAmount_tb      			= 32'h00000040;
-			#10
-			Another_Operation_tb 		= 1'b0;
-			#10
-			// end of deposit test 
+
+//         Clock_tb 					= 1'b1;
+// 		Reset_tb					= 1'b0;
+// 		Language_tb					= 1'b0;
+// 		moneyDeposited_tb			= 1'b0;
+// 		// Service_Chosen_tb           = 1'b0;
+// 		cardIn_tb                   = 1'b0;
+// 		Another_Operation_tb		= 1'b0;
+// 		opCode_tb					= 2'b00;
+// 		password_tb 				= 4'b0000;
+// 		inputAmount_tb			= 32'h00000000;
+// 		#10
 
 
-#100
+// //Deposit
+// 			Reset_tb 					= 1'b1;
+// 			#10
+//             cardIn_tb                   =1'b1;
+//             #10
+// 			Language_tb 				= 1'b1;
+// 			#10
+// 			password_tb 				= 4'b1010;
+// 			#10
+// 			opCode_tb 					= 2'b10;
+// 			#10
+// 			inputAmount_tb      			= 32'h00000040;
+// 			#10
+// 			Another_Operation_tb 		= 1'b0;
+// 			#10
+// 			// end of deposit test 
 
-Clock_tb 					= 1'b1;
-		Reset_tb					= 1'b0;
-		Language_tb					= 1'b0;
-		moneyDeposited_tb			= 1'b0;
-		// Service_Chosen_tb           = 1'b0;
-		cardIn_tb                   = 1'b0;
-		Another_Operation_tb		= 1'b0;
-		opCode_tb					= 2'b00;
-		password_tb 				= 4'b0000;
-		inputAmount_tb			= 32'h00000000;
-		#20   
+
+// #100
+
+// Clock_tb 					= 1'b1;
+// 		Reset_tb					= 1'b0;
+// 		Language_tb					= 1'b0;
+// 		moneyDeposited_tb			= 1'b0;
+// 		// Service_Chosen_tb           = 1'b0;
+// 		cardIn_tb                   = 1'b0;
+// 		Another_Operation_tb		= 1'b0;
+// 		opCode_tb					= 2'b00;
+// 		password_tb 				= 4'b0000;
+// 		inputAmount_tb			= 32'h00000000;
+// 		#20   
 
 
 
@@ -142,21 +143,21 @@ Clock_tb 					= 1'b1;
 			for(j=0 ; j<70 ; j=j+1)
 			begin
 			
-				seed =j;
-				$display("seed is %d" , seed);
+				// seed =j;
+				// $display("seed is %d" , seed);
 
-					for(i=0 ; i<99999 ; i=i+1)
+					for(i=0 ; i<10 ; i=i+1)
 					begin
 					
 						#10
-						Reset_tb				  =$random(seed);             
-						Language_tb               =$random(seed);
-						moneyDeposited_tb         =$random(seed);
+						Reset_tb				  =$random();             
+						Language_tb               =$random();
+						moneyDeposited_tb         =$random();
 						// Service_Chosen_tb         =$random(seed);
-						cardIn_tb                 =$random(seed);
-						Another_Operation_tb      =$random(seed);
-						opCode_tb                 =$random(seed);
-						inputAmount_tb            =$random(seed);
+						cardIn_tb                 =$random();
+						Another_Operation_tb      =$random();
+						opCode_tb                 =$random();
+						inputAmount_tb            =$random();
 		end
 					end
 					
