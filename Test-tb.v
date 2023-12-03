@@ -2,7 +2,7 @@ module ATM_Tbbbb();
 reg  Clock_tb,Reset_tb,cardIn_tb,moneyDeposited_tb,ejectCard_tb,Another_Operation_tb, Language_tb;
 reg [3:0]password_tb;
 reg [1:0] opCode_tb;
-integer inputAmount_tb;
+reg [6:0] inputAmount_tb;
 wire ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,correctPassword_tb;
 wire [31:0] Current_Balance_tb;
 integer i;

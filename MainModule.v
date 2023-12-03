@@ -2,10 +2,11 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
     input wire clk,reset,cardIn,moneyDeposited,ejectCard,Another_Operation, Language;
     input wire [3:0]password;
     input wire [1:0]opCode;
-    integer inputAmount;
+    reg [6:0] inputAmount;
     output reg ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,correctPassword; 
     output reg [31:0] Current_Balance;
     reg  [31:0] Existing_Balance = 32'h00FF4240;
+   
     reg [3:0]  Correct_Pass = 4'b1010;
     localparam  [3:0] Idle = 4'b0000, //Done
                       enter_Pin = 4'b0001,//DONE
@@ -24,6 +25,7 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
 // state transition
      always @(posedge clk or posedge reset)
  begin
+   Current_Balance<=Existing_Balance;
   if(reset)
    begin
      current_state <= Idle ;
@@ -86,26 +88,25 @@ deposit     						: begin
 											  
 								end
 withdraw     						: begin
-								if(inputAmount<=Existing_Balance)
-									next_state = check_Balance ;
+								if(inputAmount< Existing_Balance)
+									next_state = update_balance;
 								else 
 									next_state = choose_Transaction ;	
 											  
 								end            
 
-check_Balance: begin
-                if(inputAmount > Existing_Balance)
-                  next_state = withdraw;
-                else
-                  next_state = update_balance;	
-               end
-               
+//heck_Balance: begin
+        //        if(inputAmount > Existing_Balance)
+      //            next_state = withdraw;
+    //            else
+  //                next_state = update_balance;	
+//               end            
 update_balance: begin
              if (moneyDeposited)
-                    Existing_Balance = Existing_Balance + inputAmount;
-                  else if (inputAmount)
-                    Existing_Balance = Existing_Balance - inputAmount;
-                  Current_Balance=Existing_Balance;
+                    Existing_Balance <= Existing_Balance + inputAmount;
+                  else if (Withdrawed_Successfully)
+                    Existing_Balance <= Existing_Balance - inputAmount;
+                  Current_Balance<=Existing_Balance;
                   next_state = display_Balance;
                  
                 end
@@ -167,13 +168,13 @@ always @(*)
 									Withdrawed_Successfully   = 1'b1;
                   correctPassword=1'b1;
   end
-  check_Balance :begin
-                  ATM_Usage_Finished        = 1'b0;   
-									Balance_Shown             = 1'b0;
-									Deposited_Successfully    = 1'b0;
-									Withdrawed_Successfully   = 1'b0;
-                  correctPassword=1'b1;
-  end
+  //check_Balance :begin
+    //              ATM_Usage_Finished        = 1'b0;   
+			//						Balance_Shown             = 1'b0;
+				//					Deposited_Successfully    = 1'b0;
+					//				Withdrawed_Successfully   = 1'b0;
+            //      correctPassword=1'b1;
+ // end
   update_balance :begin
                   ATM_Usage_Finished        = 1'b0;   
 									Balance_Shown             = 1'b0;
