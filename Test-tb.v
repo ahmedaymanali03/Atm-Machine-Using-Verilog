@@ -3,8 +3,8 @@ reg  Clock_tb,Reset_tb,cardIn_tb,moneyDeposited_tb,ejectCard_tb,Another_Operatio
 reg [3:0]password_tb;
 reg [1:0] opCode_tb;
 integer inputAmount_tb;
-
 wire ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,correctPassword_tb;
+wire [31:0] Current_Balance_tb;
 integer i;
 ATM uUT(
 .clk(Clock_tb), 
@@ -21,8 +21,9 @@ ATM uUT(
 .Deposited_Successfully(Deposited_Successfully_tb), 
 .Withdrawed_Successfully(Withdrawed_Successfully_tb), 
 .password(password_tb),
-.correctPassword(correctPassword_tb)
+.correctPassword(correctPassword_tb),.Current_Balance(Current_Balance_tb)
 );
+
 initial
 begin
 	Clock_tb = 0;
@@ -37,7 +38,7 @@ initial begin
 @(posedge Clock_tb);
 for(i=0;i<9999;i=i+1) begin
 #10
-    Reset_tb=$random();
+    //Reset_tb=$random();
     Language_tb=$random();
     moneyDeposited_tb=$random();
     opCode_tb=$random();
