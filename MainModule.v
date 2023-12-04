@@ -1,8 +1,8 @@
-module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Operation,password,opCode,Current_Balance,Language,ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully);
+module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Operation,password,opCode,Current_Balance,Language,ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,inputAmount);
     input wire clk,reset,cardIn,moneyDeposited,ejectCard,Another_Operation, Language;
     input wire [3:0]password;
     input wire [1:0]opCode;
-    reg [6:0] inputAmount;
+    input  [6:0] inputAmount;
     output reg ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,correctPassword; 
     output reg [31:0] Current_Balance;
     reg  [31:0] Existing_Balance = 32'h00FF4240;
@@ -102,12 +102,21 @@ withdraw     						: begin
   //                next_state = update_balance;	
 //               end            
 update_balance: begin
-             if (moneyDeposited)
-                    Existing_Balance <= Existing_Balance + inputAmount;
-                  else if (Withdrawed_Successfully)
-                    Existing_Balance <= Existing_Balance - inputAmount;
-                  Current_Balance<=Existing_Balance;
+             if (moneyDeposited)begin
+                    Existing_Balance <= (Existing_Balance + inputAmount);
+                     Current_Balance<=Existing_Balance;
                   next_state = display_Balance;
+             end
+                  else if (Withdrawed_Successfully)begin
+                    Existing_Balance <= Existing_Balance - inputAmount;
+                     Current_Balance<=Existing_Balance;
+                  next_state = display_Balance;
+                  end
+                    else begin
+                    Existing_Balance<=Existing_Balance;
+                     Current_Balance<=Existing_Balance;
+                  next_state = display_Balance;end
+                 
                  
                 end
 display_Balance:begin

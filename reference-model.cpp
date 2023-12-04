@@ -68,7 +68,7 @@ public:
 
 int main() {
 
-    ATM atm(1010);
+    ATM atm(1011);
     atm.deposit(1000);
     cout << "Balance: " << atm.checkBalance() << endl;
     atm.withdraw(500);
