@@ -102,7 +102,7 @@ withdraw     						: begin
   //                next_state = update_balance;	
 //               end            
 update_balance: begin
-             if (moneyDeposited)begin
+             if (moneyDeposited&&Deposited_Successfully)begin
                     Existing_Balance = (Existing_Balance + inputAmount);
                      Current_Balance=Existing_Balance;
                   next_state = display_Balance;
