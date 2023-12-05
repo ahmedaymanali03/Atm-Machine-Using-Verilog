@@ -1,4 +1,4 @@
-module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Operation,password,opCode,Current_Balance,Language,ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,inputAmount);
+module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Operation,password,opCode,Current_Balance,Language,ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,inputAmount,Input_Approved);
     input wire clk,reset,cardIn,moneyDeposited,ejectCard,Another_Operation, Language;
     input wire [3:0]password;
     input wire [1:0]opCode;
@@ -13,7 +13,7 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
                       choose_Transaction = 4'b0010,//DONE
                       deposit = 4'b0011, //salma :)
                       withdraw= 4'b0100, //salma  :)
-                      //check_Balance= 4'b0101, //ayman DONE
+                      check_Balance= 4'b0101, //ayman DONE
                       update_balance= 4'b0110, //ayman DONE
                       display_Balance= 4'b0111, //kassab DONE
                       eject_Card= 4'b1000,//kassab DONE
@@ -81,7 +81,7 @@ choose_Transaction: begin
     next_state= choose_Transaction;
     end
 deposit     						: begin
-								if(opCode==2b'10)
+								if(inputAmount>0)
 									next_state = update_balance ;
 								else 
 									next_state = deposit ;	
@@ -96,22 +96,23 @@ check_Balance     						: begin
 								end            
 
 withdraw: begin
-        if (Input_Approved)
+        if (inputAmount>0 )
             next_state = update_balance;	
           else
           next_state=choose_Transaction;
            end            
 update_balance: begin
-             if (Deposited_Successfully)begin
-                    Existing_Balance = (Existing_Balance + inputAmount);
-                     Current_Balance=Existing_Balance;
-                  next_state = display_Balance;
-             end
-                  else if (Withdrawed_Successfully)begin
+            
+                   if (opCode==2'b11)begin
                     Existing_Balance = (Existing_Balance - inputAmount);
                      Current_Balance=Existing_Balance;
                   next_state = display_Balance;
                   end
+                   else if (opCode==2'b10)begin
+                    Existing_Balance = (Existing_Balance + inputAmount);
+                     Current_Balance=Existing_Balance;
+                  next_state = display_Balance;
+             end
                 
                  
                 end
@@ -165,7 +166,7 @@ always @(*)
   end
   deposit :begin
                   ATM_Usage_Finished        = 1'b0;   
-                  Input_Approved=1'b0;
+                  Input_Approved=1'b1;
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b1;
 									Withdrawed_Successfully   = 1'b0;

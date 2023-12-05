@@ -3,7 +3,7 @@ reg  Clock_tb,Reset_tb,cardIn_tb,moneyDeposited_tb,ejectCard_tb,Another_Operatio
 reg [3:0]password_tb;
 reg [1:0] opCode_tb;
 reg [6:0] inputAmount_tb;
-wire ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,correctPassword_tb;
+wire ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,correctPassword_tb,Input_Approved_tb;
 wire [31:0] Current_Balance_tb;
 integer i;
 ATM uUT(
@@ -23,6 +23,7 @@ ATM uUT(
 .Withdrawed_Successfully(Withdrawed_Successfully_tb), 
 .password(password_tb),
 .correctPassword(correctPassword_tb),.Current_Balance(Current_Balance_tb)
+,.Input_Approved(Input_Approved_tb)
 );
 
 initial
