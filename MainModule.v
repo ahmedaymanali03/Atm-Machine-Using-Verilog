@@ -13,7 +13,7 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
                       choose_Transaction = 4'b0010,//DONE
                       deposit = 4'b0011, //salma :)
                       withdraw= 4'b0100, //salma  :)
-                      check_Balance= 4'b0101, //ayman DONE
+                      //check_Balance= 4'b0101, //ayman DONE
                       update_balance= 4'b0110, //ayman DONE
                       display_Balance= 4'b0111, //kassab DONE
                       eject_Card= 4'b1000,//kassab DONE
@@ -103,19 +103,19 @@ withdraw     						: begin
 //               end            
 update_balance: begin
              if (moneyDeposited)begin
-                    Existing_Balance <= (Existing_Balance + inputAmount);
-                     Current_Balance<=Existing_Balance;
+                    Existing_Balance = (Existing_Balance + inputAmount);
+                     Current_Balance=Existing_Balance;
                   next_state = display_Balance;
              end
                   else if (Withdrawed_Successfully)begin
-                    Existing_Balance <= Existing_Balance - inputAmount;
-                     Current_Balance<=Existing_Balance;
+                    Existing_Balance = (Existing_Balance - inputAmount);
+                     Current_Balance=Existing_Balance;
                   next_state = display_Balance;
                   end
-                    else begin
-                    Existing_Balance<=Existing_Balance;
-                     Current_Balance<=Existing_Balance;
-                  next_state = display_Balance;end
+                  //   else begin
+                  //   Existing_Balance<=Existing_Balance;
+                  //    Current_Balance<=Existing_Balance;
+                  // next_state = display_Balance;end
                  
                  
                 end
