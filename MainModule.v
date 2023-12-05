@@ -3,7 +3,7 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
     input wire [3:0]password;
     input wire [1:0]opCode;
     input  [6:0] inputAmount;
-    output reg ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,correctPassword; 
+    output reg ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,correctPassword,Input_Approved; 
     output reg [31:0] Current_Balance;
     reg  [31:0] Existing_Balance = 32'h00FF4240;
    
@@ -81,28 +81,28 @@ choose_Transaction: begin
     next_state= choose_Transaction;
     end
 deposit     						: begin
-								if(moneyDeposited)
+								if(opCode==2b'10)
 									next_state = update_balance ;
 								else 
 									next_state = deposit ;	
 											  
 								end
-withdraw     						: begin
+check_Balance     						: begin
 								if(inputAmount< Existing_Balance)
-									next_state = update_balance;
+									next_state = withdraw;
 								else 
 									next_state = choose_Transaction ;	
 											  
 								end            
 
-//heck_Balance: begin
-        //        if(inputAmount > Existing_Balance)
-      //            next_state = withdraw;
-    //            else
-  //                next_state = update_balance;	
-//               end            
+withdraw: begin
+        if (Input_Approved)
+            next_state = update_balance;	
+          else
+          next_state=choose_Transaction;
+           end            
 update_balance: begin
-             if (moneyDeposited&&Deposited_Successfully)begin
+             if (Deposited_Successfully)begin
                     Existing_Balance = (Existing_Balance + inputAmount);
                      Current_Balance=Existing_Balance;
                   next_state = display_Balance;
@@ -112,11 +112,7 @@ update_balance: begin
                      Current_Balance=Existing_Balance;
                   next_state = display_Balance;
                   end
-                  //   else begin
-                  //   Existing_Balance<=Existing_Balance;
-                  //    Current_Balance<=Existing_Balance;
-                  // next_state = display_Balance;end
-                 
+                
                  
                 end
 display_Balance:begin
@@ -137,13 +133,15 @@ always @(*)
   case(current_state)
   Idle :begin
                   ATM_Usage_Finished        = 1'b0;   
+                  Input_Approved=1'b0;
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
                   correctPassword=1'b0;
   end
    choose_Language :begin
-                                    ATM_Usage_Finished        = 1'b0;   
+                                    ATM_Usage_Finished        = 1'b0; 
+                                    Input_Approved=1'b0;  
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
@@ -151,13 +149,15 @@ always @(*)
   end
   enter_Pin :begin
                   ATM_Usage_Finished        = 1'b0;   
+                  Input_Approved=1'b0;
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
                   correctPassword=1'b0;
   end
   choose_Transaction :begin
-                  ATM_Usage_Finished        = 1'b0;   
+                  ATM_Usage_Finished        = 1'b0; 
+                  Input_Approved=1'b0;  
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
@@ -165,27 +165,31 @@ always @(*)
   end
   deposit :begin
                   ATM_Usage_Finished        = 1'b0;   
+                  Input_Approved=1'b0;
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b1;
 									Withdrawed_Successfully   = 1'b0;
                   correctPassword=1'b1;
   end
   withdraw :begin
-                  ATM_Usage_Finished        = 1'b0;   
+                  ATM_Usage_Finished        = 1'b0;  
+                  Input_Approved=1'b1;
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b1;
                   correctPassword=1'b1;
   end
-  //check_Balance :begin
-    //              ATM_Usage_Finished        = 1'b0;   
-			//						Balance_Shown             = 1'b0;
-				//					Deposited_Successfully    = 1'b0;
-					//				Withdrawed_Successfully   = 1'b0;
-            //      correctPassword=1'b1;
- // end
+  check_Balance :begin
+                 ATM_Usage_Finished        = 1'b0; 
+                 Input_Approved=1'b1;  
+									Balance_Shown             = 1'b0;
+									Deposited_Successfully    = 1'b0;
+									Withdrawed_Successfully   = 1'b0;
+                 correctPassword=1'b1;
+ end
   update_balance :begin
                   ATM_Usage_Finished        = 1'b0;   
+                  Input_Approved=1'b0;
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
@@ -194,6 +198,7 @@ always @(*)
   display_Balance :begin
                   ATM_Usage_Finished        = 1'b0;   
 									Balance_Shown             = 1'b1;
+                  Input_Approved=1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
                   correctPassword=1'b1;
@@ -201,6 +206,7 @@ always @(*)
   eject_Card :begin
                   ATM_Usage_Finished        = 1'b1;   
 									Balance_Shown             = 1'b0;
+                  Input_Approved=1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
                   correctPassword=1'b1;
@@ -208,6 +214,7 @@ always @(*)
   default :begin
                   ATM_Usage_Finished        = 1'b0;   
 									Balance_Shown             = 1'b0;
+                  Input_Approved=1'b0;
 									Deposited_Successfully    = 1'b0;
 									Withdrawed_Successfully   = 1'b0;
                   correctPassword=1'b0;
