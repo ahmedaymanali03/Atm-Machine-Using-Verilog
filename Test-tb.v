@@ -30,7 +30,7 @@ initial
 begin
 	Clock_tb = 0;
 	forever
-		#5 Clock_tb = ~Clock_tb;
+		#1 Clock_tb = ~Clock_tb;
 	end
 
 initial begin
@@ -38,15 +38,16 @@ initial begin
     password_tb<=4'b1010;
     cardIn_tb<=1;
     ejectCard_tb<=0;
+     Language_tb=1;
 //@(posedge Clock_tb);
 for(i=0;i<999;i=i+1) begin
 #10
     //Reset_tb=$random();
-    Language_tb=$random();
+   
     moneyDeposited_tb=$random();
     opCode_tb=$random();
     Another_Operation_tb=$random();
-    inputAmount_tb=$random();
+    inputAmount_tb=$unsigned($random());
 end
 end
 

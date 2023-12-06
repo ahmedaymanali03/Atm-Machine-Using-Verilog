@@ -2,7 +2,7 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
     input wire clk,reset,cardIn,moneyDeposited,ejectCard,Another_Operation, Language;
     input wire [3:0]password;
     input wire [1:0]opCode;
-    input  [6:0] inputAmount;
+    input wire  [6:0] inputAmount;
     output reg ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,correctPassword,Input_Approved; 
     output reg [31:0] Current_Balance;
     reg  [31:0] Existing_Balance = 32'h00FF4240;
