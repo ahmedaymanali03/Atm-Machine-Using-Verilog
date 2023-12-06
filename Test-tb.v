@@ -41,12 +41,14 @@ initial begin
      Language_tb=1;
 //@(posedge Clock_tb);
 for(i=0;i<999;i=i+1) begin
-#10
+//#10
+@(posedge Clock_tb);
     //Reset_tb=$random();
    
     moneyDeposited_tb=$random();
     opCode_tb=$random();
     Another_Operation_tb=$random();
+    #10
     inputAmount_tb=$unsigned($random());
 end
 end
