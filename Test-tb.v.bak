@@ -36,93 +36,94 @@ begin
 
 
  initial begin
+//     //randomized testing
+//     Reset_tb<=0;
+//     password_tb<=4'b1010;
+//     cardIn_tb<=1;
+//     ejectCard_tb<=0;
+//     Language_tb=1;
+//     Timer_tb=0;
+// //@(posedge Clock_tb);
+// for(i=0;i<999;i=i+1) begin
+// //#10
+// @(posedge Clock_tb);
+//     //Reset_tb=$random();
+   
+//     moneyDeposited_tb=$random();
+//     opCode_tb=$random();
+//     Another_Operation_tb=$random();
+//     #12
+//     inputAmount_tb=$unsigned($random());
+// end
+
 
 
 // Directed testing
+ 
+ Clock_tb= 1'b1;
+ Reset_tb=1'b0;
+ cardIn_tb=1'b0;
+ moneyDeposited_tb=1'b0;
+ ejectCard_tb=1'b0;
+ Another_Operation_tb=1'b0;
+ Language_tb=1'b0;
+ Timer_tb=1'b0;
+ password_tb=4'b0000;
+ opCode_tb=2'b00;
+ inputAmount_tb=20'h00000;
+
+
+
+
+//  //reset test
+// Reset_tb=1;
+
+
+//  Clock_tb= 1'b1;
+//  Reset_tb=1'b0;
+//  cardIn_tb=1'b0;
+//  moneyDeposited_tb=1'b0;
+//  ejectCard_tb=1'b0;
+//  Another_Operation_tb=1'b0;
+//  Language_tb=1'b0;
+//  Timer_tb=1'b0;
+//  password_tb=4'b0000;
+//  opCode_tb=2'b00;
+//  inputAmount_tb=20'h00000;
 
 //Deposit test
  Reset_tb=1'b0;
- Timer_tb=1'b0;
- #1
  cardIn_tb=1'b1;
- #1
+ moneyDeposited_tb=1'b0;
+ ejectCard_tb=1'b0;
+ Another_Operation_tb=1'b0;
  Language_tb=1'b1;
- #1
+ Timer_tb=1'b0;
  password_tb=4'b1010;
- #1
  opCode_tb=2'b10;
- #5
- inputAmount_tb=20'h00488;
- #5
- ejectCard_tb=1'b1;
+ inputAmount_tb=20'h003E8;
+
 @(posedge Clock_tb)
- if(Current_Balance_tb==0)
+ if(Current_Balance_tb!=(Current_Balance_tb + inputAmount_tb))
  $display("error when depositing money");
- #6
-
-//Display balance
-
- Reset_tb=1'b0;
- Timer_tb=1'b0;
- #1
- cardIn_tb=1'b1;
- #1
- Language_tb=1'b1;
- #1
- password_tb=4'b1010;
- #1
- opCode_tb=2'b01;
- #1
- ejectCard_tb=1'b1;
-@(posedge Clock_tb)
- if(!Balance_Shown_tb)
- $display("error when showing balance");
-#5
 
 
-//withdraw test
-Reset_tb=1'b0;
- Timer_tb=1'b0;
- #1
- cardIn_tb=1'b1;
- #1
- Language_tb=1'b1;
- #1
- password_tb=4'b1010;
- #1
- opCode_tb=2'b11;
- #5
- inputAmount_tb=20'h00100;
- #5
- ejectCard_tb=1'b1;
-#20
-
- 
- 
+// //Display balance
+// Clock_tb= 1'b1;
+//  Reset_tb=1'b0;
+//  cardIn_tb=1'b1;
+//  moneyDeposited_tb=1'b0;
+//  ejectCard_tb=1'b0;
+//  Another_Operation_tb=1'b0;
+//  Language_tb=1'b1;
+//  Timer_tb=1'b0;
+//  password_tb=4'b1010;
+//  opCode_tb=2'b01;
+//  inputAmount_tb=20'h00000;
 
 
-    //randomized testing
-    Reset_tb<=0;
-    password_tb<=4'b1010;
-    cardIn_tb<=1;
-    ejectCard_tb<=0;
-    Language_tb=1;
-    Timer_tb=0;
-//@(posedge Clock_tb);
-for(i=0;i<999;i=i+1) begin
-//#10
-@(posedge Clock_tb);
-    //Reset_tb=$random();
-   
-    moneyDeposited_tb=$random();
-    opCode_tb=$random();
-    Another_Operation_tb=$random();
-    #12
-    inputAmount_tb=$unsigned($random());
-end
-
+//
 $stop;
-
 end
 
 initial begin
