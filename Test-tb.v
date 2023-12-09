@@ -1,8 +1,8 @@
 module ATM_Tbbbb();
-reg  Clock_tb,Reset_tb,cardIn_tb,moneyDeposited_tb,ejectCard_tb,Another_Operation_tb, Language_tb;
+reg  Clock_tb,Reset_tb,cardIn_tb,moneyDeposited_tb,ejectCard_tb,Another_Operation_tb, Language_tb,Timer_tb;
 reg [3:0]password_tb;
 reg [1:0] opCode_tb;
-reg [6:0] inputAmount_tb;
+reg [19:0] inputAmount_tb;
 wire ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,correctPassword_tb,Input_Approved_tb;
 wire [31:0] Current_Balance_tb;
 integer i;
@@ -21,7 +21,7 @@ ATM uUT(
 .Balance_Shown(Balance_Shown_tb), 
 .Deposited_Successfully(Deposited_Successfully_tb), 
 .Withdrawed_Successfully(Withdrawed_Successfully_tb), 
-.password(password_tb),
+.password(password_tb),.timer(Timer_tb),
 .correctPassword(correctPassword_tb),.Current_Balance(Current_Balance_tb)
 ,.Input_Approved(Input_Approved_tb)
 );
@@ -38,7 +38,8 @@ initial begin
     password_tb<=4'b1010;
     cardIn_tb<=1;
     ejectCard_tb<=0;
-     Language_tb=1;
+    Language_tb=1;
+    Timer_tb=1;
 //@(posedge Clock_tb);
 for(i=0;i<999;i=i+1) begin
 //#10
@@ -48,7 +49,7 @@ for(i=0;i<999;i=i+1) begin
     moneyDeposited_tb=$random();
     opCode_tb=$random();
     Another_Operation_tb=$random();
-    #10
+    #12
     inputAmount_tb=$unsigned($random());
 end
 end

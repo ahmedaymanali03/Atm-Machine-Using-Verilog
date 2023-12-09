@@ -1,11 +1,12 @@
-module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Operation,password,opCode,Current_Balance,Language,ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,inputAmount,Input_Approved);
+module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,timer,Another_Operation,password,opCode,Current_Balance,Language,ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,inputAmount,Input_Approved);
     input wire clk,reset,cardIn,moneyDeposited,ejectCard,Another_Operation, Language;
+    input wire timer;
     input wire [3:0]password;
     input wire [1:0]opCode;
-    input wire  [6:0] inputAmount;
+    input wire  [19:0] inputAmount;
     output reg ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,correctPassword,Input_Approved; 
     output reg [31:0] Current_Balance;
-    reg  [31:0] Existing_Balance = 32'h00FF4240;
+    reg  [31:0] Existing_Balance = 32'h000F4240;
    
     reg [3:0]  Correct_Pass = 4'b1010;
     localparam  [3:0] Idle = 4'b0000, //Done
@@ -23,13 +24,17 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,Another_Op
                      next_state;
                      
 // state transition
-     always @(posedge clk or posedge reset)
+     always @(negedge clk or posedge reset or timer)
  begin
    Current_Balance<=Existing_Balance;
   if(reset)
    begin
      current_state <= Idle ;
    end
+  else if (timer)
+  begin
+    current_state <= choose_Transaction;
+  end
   else
    begin
      current_state <= next_state ;
@@ -76,7 +81,7 @@ choose_Transaction: begin
     else if (opCode == 2'b10)
     next_state = deposit;
     else if (opCode == 2'b11)
-    next_state = withdraw;
+    next_state = check_Balance;
     else 
     next_state= choose_Transaction;
     end
