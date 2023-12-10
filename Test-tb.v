@@ -1,5 +1,5 @@
 module ATM_Tbbbb();
-reg  Clock_tb,Reset_tb,cardIn_tb,moneyDeposited_tb,ejectCard_tb,Another_Operation_tb, Language_tb,Timer_tb;
+reg  Clock_tb,Reset_tb,cardIn_tb,ejectCard_tb, Language_tb,Timer_tb;
 reg [3:0]password_tb;
 reg [1:0] opCode_tb;
 reg [19:0] inputAmount_tb;
@@ -10,11 +10,11 @@ ATM uUT(
 .clk(Clock_tb), 
 .reset(Reset_tb),  
 .Language(Language_tb), 
-.moneyDeposited(moneyDeposited_tb),  
+  
 // .Service_Chosen(Service_Chosen_tb),
 .cardIn(cardIn_tb),  
 .ejectCard(ejectCard_tb),
-.Another_Operation(Another_Operation_tb),
+
 .opCode(opCode_tb),
 .inputAmount(inputAmount_tb),
 .ATM_Usage_Finished(ATM_Usage_Finished_tb),
@@ -60,10 +60,23 @@ begin
  $display("error when depositing money");
  #6
 
+    Reset_tb = 1'b1;
+    @(posedge Clock_tb)
+    if(~(correctPassword_tb&&Input_Approved_tb&&Withdrawed_Successfully_tb&&Deposited_Successfully_tb&&Balance_Shown_tb&&ATM_Usage_Finished_tb))
+    $display("reset doesnt work ");
+    #6
+                
+
+
 //Display balance
 
  Reset_tb=1'b0;
  Timer_tb=1'b0;
+ cardIn_tb=1'b1;
+ #1
+ Language_tb=1'b1;
+ #1
+ password_tb=4'b1010;
  #1
  cardIn_tb=1'b1;
  #1
@@ -103,7 +116,7 @@ Reset_tb=1'b0;
 
     //randomized testing
     Reset_tb<=0;
-    password_tb<=4'b1010;
+   // password_tb<=4'b1010;
     cardIn_tb<=1;
     ejectCard_tb<=0;
     Language_tb=1;
@@ -114,9 +127,9 @@ for(i=0;i<999;i=i+1) begin
 @(posedge Clock_tb);
     //Reset_tb=$random();
    
-    moneyDeposited_tb=$random();
+   
     opCode_tb=$random();
-    Another_Operation_tb=$random();
+    
     #12
     inputAmount_tb=$unsigned($random());
 end
@@ -129,6 +142,7 @@ initial begin
     $monitor("clk = %b , rst= %b,correct password = %b,usage finished= %b,balance shown= %b , deposited = %b , withdrawn= %b, input approved = %b ,current balance = %d  ",Clock_tb,Reset_tb,correctPassword_tb,ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,Input_Approved_tb,Current_Balance_tb);
 end
 
+//psl reset_assertion: assert always ((Reset_tb==1)->next(~(correctPassword_tb&&Input_Approved_tb&&Withdrawed_Successfully_tb&&Deposited_Successfully_tb&&Balance_Shown_tb&&ATM_Usage_Finished_tb))) @(posedge Clock_tb);
 
 
 

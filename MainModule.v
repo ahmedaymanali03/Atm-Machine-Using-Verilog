@@ -1,5 +1,5 @@
-module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,timer,Another_Operation,password,opCode,Current_Balance,Language,ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,inputAmount,Input_Approved);
-    input wire clk,reset,cardIn,moneyDeposited,ejectCard,Another_Operation, Language;
+module ATM (clk,reset,cardIn,ejectCard,correctPassword,timer,password,opCode,Current_Balance,Language,ATM_Usage_Finished, Balance_Shown, Deposited_Successfully, Withdrawed_Successfully,inputAmount,Input_Approved);
+    input wire clk,reset,cardIn,ejectCard, Language;
     input wire timer;
     input wire [3:0]password;
     input wire [1:0]opCode;
@@ -33,7 +33,7 @@ module ATM (clk,reset,cardIn,moneyDeposited,ejectCard,correctPassword,timer,Anot
    end
   else if (timer)
   begin
-    current_state <= choose_Transaction;
+    current_state <= choose_Language;
   end
   else
    begin
