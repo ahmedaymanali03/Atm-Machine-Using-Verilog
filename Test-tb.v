@@ -3,7 +3,7 @@ reg  Clock_tb,Reset_tb,cardIn_tb,ejectCard_tb, Language_tb,Timer_tb;
 reg [3:0]password_tb;
 reg [1:0] opCode_tb;
 reg [19:0] inputAmount_tb;
-wire ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,correctPassword_tb,Input_Approved_tb;
+wire ATM_Usage_Finished_tb, Balance_Shown_tb,Balance_Updated_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,correctPassword_tb,Input_Approved_tb;
 wire [31:0] Current_Balance_tb;
 integer i;
 ATM uUT(
@@ -14,7 +14,7 @@ ATM uUT(
 // .Service_Chosen(Service_Chosen_tb),
 .cardIn(cardIn_tb),  
 .ejectCard(ejectCard_tb),
-
+.Balance_Updated(Balance_Updated_tb),
 .opCode(opCode_tb),
 .inputAmount(inputAmount_tb),
 .ATM_Usage_Finished(ATM_Usage_Finished_tb),
@@ -62,7 +62,7 @@ begin
 
     Reset_tb = 1'b1;
     @(posedge Clock_tb)
-    if(~(correctPassword_tb&&Input_Approved_tb&&Withdrawed_Successfully_tb&&Deposited_Successfully_tb&&Balance_Shown_tb&&ATM_Usage_Finished_tb))
+    if((correctPassword_tb||Input_Approved_tb||Withdrawed_Successfully_tb||Deposited_Successfully_tb||Balance_Shown_tb||ATM_Usage_Finished_tb))
     $display("reset doesnt work ");
     #6
                 
@@ -141,8 +141,10 @@ end
 initial begin
     $monitor("clk = %b , rst= %b,correct password = %b,usage finished= %b,balance shown= %b , deposited = %b , withdrawn= %b, input approved = %b ,current balance = %d  ",Clock_tb,Reset_tb,correctPassword_tb,ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,Input_Approved_tb,Current_Balance_tb);
 end
-
-//psl reset_assertion: assert always ((Reset_tb==1)->next(~(correctPassword_tb&&Input_Approved_tb&&Withdrawed_Successfully_tb&&Deposited_Successfully_tb&&Balance_Shown_tb&&ATM_Usage_Finished_tb))) @(posedge Clock_tb);
+//psl reset_assertion: assert always ((Reset_tb==1)->(correctPassword_tb||Input_Approved_tb||Withdrawed_Successfully_tb||Deposited_Successfully_tb||Balance_Shown_tb||ATM_Usage_Finished_tb)) @(negedge Clock_tb);
+//psl timer_assertion: assert always ((Timer_tb==1)->(correctPassword_tb||Input_Approved_tb||Withdrawed_Successfully_tb||Deposited_Successfully_tb||Balance_Shown_tb||ATM_Usage_Finished_tb)) @(negedge Clock_tb);
+//psl deposit_assertion: assert always ((password_tb==4'b1010 && Reset_tb==0 && Timer_tb==0 && cardIn_tb==1&& inputAmount_tb>0&& opCode_tb==2'b10)->next(Balance_Updated_tb)) @(negedge Clock_tb);
+//psl withdraw_assertion: assert always ((password_tb==4'b1010 && Reset_tb==0 && Timer_tb==0 && cardIn_tb==1&& inputAmount_tb<Current_Balance_tb&& opCode_tb==2'b11)->next(Balance_Updated_tb)) @(negedge Clock_tb);
 
 
 
