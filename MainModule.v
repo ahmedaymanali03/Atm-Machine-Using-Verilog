@@ -175,7 +175,7 @@ always @(*)
   end
   deposit :begin
                   ATM_Usage_Finished        = 1'b0;   
-                  Input_Approved=1'b1;
+                  Input_Approved=1'b0;
                    Balance_Updated=1'b0; 
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b1;
@@ -202,7 +202,7 @@ always @(*)
  end
   update_balance :begin
                   ATM_Usage_Finished        = 1'b0;   
-                  Input_Approved=1'b0;
+                  Input_Approved=1'b1;
                   Balance_Updated=1'b1; 
 									Balance_Shown             = 1'b0;
 									Deposited_Successfully    = 1'b0;
