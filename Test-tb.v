@@ -141,10 +141,10 @@ end
 initial begin
     $monitor("clk = %b , rst= %b,correct password = %b,usage finished= %b,balance shown= %b , deposited = %b , withdrawn= %b, input approved = %b ,current balance = %d  ",Clock_tb,Reset_tb,correctPassword_tb,ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,Input_Approved_tb,Current_Balance_tb);
 end
-//psl reset_assertion: assert always ((Reset_tb==1)->(correctPassword_tb||Input_Approved_tb||Withdrawed_Successfully_tb||Deposited_Successfully_tb||Balance_Shown_tb||ATM_Usage_Finished_tb)) @(negedge Clock_tb);
-//psl timer_assertion: assert always ((Timer_tb==1)->(correctPassword_tb||Input_Approved_tb||Withdrawed_Successfully_tb||Deposited_Successfully_tb||Balance_Shown_tb||ATM_Usage_Finished_tb)) @(negedge Clock_tb);
-//psl deposit_assertion: assert always ((password_tb==4'b1010 && Reset_tb==0 && Timer_tb==0 && cardIn_tb==1&& inputAmount_tb>0&& opCode_tb==2'b10)->next(Balance_Updated_tb)) @(negedge Clock_tb);
-//psl withdraw_assertion: assert always ((password_tb==4'b1010 && Reset_tb==0 && Timer_tb==0 && cardIn_tb==1&& inputAmount_tb<Current_Balance_tb&& opCode_tb==2'b11)->next(Balance_Updated_tb)) @(negedge Clock_tb);
+//psl reset_assertion: assert always ((Reset_tb==1)->((~(correctPassword_tb&&Input_Approved_tb&&Withdrawed_Successfully_tb&&Deposited_Successfully_tb&&Balance_Shown_tb&&ATM_Usage_Finished_tb))) ) @(posedge Clock_tb);
+//psl timer_assertion: assert always ((Timer_tb==1)->(~(correctPassword_tb&&Input_Approved_tb&&Withdrawed_Successfully_tb&&Deposited_Successfully_tb&&Balance_Shown_tb&&ATM_Usage_Finished_tb))) @(posedge Clock_tb);
+//psl deposit_assertion: assert always ((password_tb==4'b1010 && Reset_tb==0 && Timer_tb==0 && cardIn_tb==1&& inputAmount_tb>0&& opCode_tb==2'b10)->next(Input_Approved_tb)) @(posedge Clock_tb);
+//psl withdraw_assertion: assert always ((password_tb==4'b1010 && Reset_tb==0 && Timer_tb==0 && cardIn_tb==1&& inputAmount_tb<Current_Balance_tb&& opCode_tb==2'b11)->next(Balance_Updated_tb)) @(posedge  Clock_tb);
 
 
 
