@@ -1,0 +1,16 @@
+C:/Users/Ahmed/Desktop/Project/Atm-Machine-Using-Verilog/Test-tb.v {1 {vlog -work work -vopt -stats=none C:/Users/Ahmed/Desktop/Project/Atm-Machine-Using-Verilog/Test-tb.v
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module ATM_Tbbbb
+
+Top level modules:
+	ATM_Tbbbb
+
+} {} {}} C:/Users/Ahmed/Desktop/Project/Atm-Machine-Using-Verilog/MainModule.v {2 {vlog -work work -vopt -stats=none C:/Users/Ahmed/Desktop/Project/Atm-Machine-Using-Verilog/MainModule.v
+QuestaSim-64 vlog 10.6c Compiler 2017.07 Jul 26 2017
+-- Compiling module ATM
+** Warning: C:/Users/Ahmed/Desktop/Project/Atm-Machine-Using-Verilog/MainModule.v(96): (vlog-2182) 'Existing_Balance' might be read before written in always_comb or always @* block.
+
+Top level modules:
+	ATM
+
+} {} {}}

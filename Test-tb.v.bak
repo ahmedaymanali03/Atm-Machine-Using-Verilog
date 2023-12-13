@@ -1,0 +1,140 @@
+module ATM_Tbbbb();
+reg  Clock_tb,Reset_tb,cardIn_tb,moneyDeposited_tb,ejectCard_tb,Another_Operation_tb, Language_tb,Timer_tb;
+reg [3:0]password_tb;
+reg [1:0] opCode_tb;
+reg [19:0] inputAmount_tb;
+wire ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,correctPassword_tb,Input_Approved_tb;
+wire [31:0] Current_Balance_tb;
+integer i;
+ATM uUT(
+.clk(Clock_tb), 
+.reset(Reset_tb),  
+.Language(Language_tb), 
+.moneyDeposited(moneyDeposited_tb),  
+// .Service_Chosen(Service_Chosen_tb),
+.cardIn(cardIn_tb),  
+.ejectCard(ejectCard_tb),
+.Another_Operation(Another_Operation_tb),
+.opCode(opCode_tb),
+.inputAmount(inputAmount_tb),
+.ATM_Usage_Finished(ATM_Usage_Finished_tb),
+.Balance_Shown(Balance_Shown_tb), 
+.Deposited_Successfully(Deposited_Successfully_tb), 
+.Withdrawed_Successfully(Withdrawed_Successfully_tb), 
+.password(password_tb),.timer(Timer_tb),
+.correctPassword(correctPassword_tb),.Current_Balance(Current_Balance_tb)
+,.Input_Approved(Input_Approved_tb)
+);
+
+initial
+begin
+	Clock_tb = 0;
+	forever
+		#1 Clock_tb = ~Clock_tb;
+	end
+
+
+
+ initial begin
+//     //randomized testing
+//     Reset_tb<=0;
+//     password_tb<=4'b1010;
+//     cardIn_tb<=1;
+//     ejectCard_tb<=0;
+//     Language_tb=1;
+//     Timer_tb=0;
+// //@(posedge Clock_tb);
+// for(i=0;i<999;i=i+1) begin
+// //#10
+// @(posedge Clock_tb);
+//     //Reset_tb=$random();
+   
+//     moneyDeposited_tb=$random();
+//     opCode_tb=$random();
+//     Another_Operation_tb=$random();
+//     #12
+//     inputAmount_tb=$unsigned($random());
+// end
+
+
+
+// Directed testing
+ 
+ Clock_tb= 1'b1;
+ Reset_tb=1'b0;
+ cardIn_tb=1'b0;
+ moneyDeposited_tb=1'b0;
+ ejectCard_tb=1'b0;
+ Another_Operation_tb=1'b0;
+ Language_tb=1'b0;
+ Timer_tb=1'b0;
+ password_tb=4'b0000;
+ opCode_tb=2'b00;
+ inputAmount_tb=20'h00000;
+
+
+
+
+//  //reset test
+// Reset_tb=1;
+
+
+//  Clock_tb= 1'b1;
+//  Reset_tb=1'b0;
+//  cardIn_tb=1'b0;
+//  moneyDeposited_tb=1'b0;
+//  ejectCard_tb=1'b0;
+//  Another_Operation_tb=1'b0;
+//  Language_tb=1'b0;
+//  Timer_tb=1'b0;
+//  password_tb=4'b0000;
+//  opCode_tb=2'b00;
+//  inputAmount_tb=20'h00000;
+
+//Deposit test
+ Reset_tb=1'b0;
+ cardIn_tb=1'b1;
+ moneyDeposited_tb=1'b0;
+ ejectCard_tb=1'b0;
+ Another_Operation_tb=1'b0;
+ Language_tb=1'b1;
+ Timer_tb=1'b0;
+ password_tb=4'b1010;
+ opCode_tb=2'b10;
+ inputAmount_tb=20'h003E8;
+
+@(posedge Clock_tb)
+ if(Current_Balance_tb!=(Current_Balance_tb + inputAmount_tb))
+ $display("error when depositing money");
+
+
+// //Display balance
+// Clock_tb= 1'b1;
+//  Reset_tb=1'b0;
+//  cardIn_tb=1'b1;
+//  moneyDeposited_tb=1'b0;
+//  ejectCard_tb=1'b0;
+//  Another_Operation_tb=1'b0;
+//  Language_tb=1'b1;
+//  Timer_tb=1'b0;
+//  password_tb=4'b1010;
+//  opCode_tb=2'b01;
+//  inputAmount_tb=20'h00000;
+
+
+//
+$stop;
+end
+
+initial begin
+    $monitor("clk = %b , rst= %b,correct password = %b,usage finished= %b,balance shown= %b , deposited = %b , withdrawn= %b, input approved = %b ,current balance = %d  ",Clock_tb,Reset_tb,correctPassword_tb,ATM_Usage_Finished_tb, Balance_Shown_tb, Deposited_Successfully_tb, Withdrawed_Successfully_tb,Input_Approved_tb,Current_Balance_tb);
+end
+
+
+
+
+
+
+
+
+endmodule

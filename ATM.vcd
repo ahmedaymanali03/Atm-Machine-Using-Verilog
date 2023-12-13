@@ -1,0 +1,281 @@
+$date
+	Sat Dec 02 23:31:05 2023
+$end
+$version
+	QuestaSim Version 10.6c
+$end
+$timescale
+	1ns
+$end
+
+$scope module ATM_TB $end
+$var reg 1 ! Clock_tb $end
+$var reg 1 " Reset_tb $end
+$var reg 1 # cardIn_tb $end
+$var reg 1 $ moneyDeposited_tb $end
+$var reg 1 % ejectCard_tb $end
+$var reg 1 & Another_Operation_tb $end
+$var reg 1 ' Language_tb $end
+$var reg 4 ( password_tb [3:0] $end
+$var reg 2 ) opCode_tb [1:0] $end
+$var integer 32 * inputAmount_tb $end
+$var wire 1 + ATM_Usage_Finished_tb $end
+$var wire 1 , Balance_Shown_tb $end
+$var wire 1 - Deposited_Successfully_tb $end
+$var wire 1 . Withdrawed_Successfully_tb $end
+$var wire 1 / correctPassword_tb $end
+$var integer 32 0 seed $end
+$var integer 32 1 j $end
+$var integer 32 2 i $end
+
+$scope module DUT $end
+$var parameter 4 3 Idle $end
+$var parameter 4 4 enter_Pin $end
+$var parameter 4 5 choose_Transaction $end
+$var parameter 4 6 deposit $end
+$var parameter 4 7 withdraw $end
+$var parameter 4 8 check_Balance $end
+$var parameter 4 9 update_balance $end
+$var parameter 4 : display_Balance $end
+$var parameter 4 ; eject_Card $end
+$var parameter 4 < choose_Language $end
+$var wire 1 = clk $end
+$var wire 1 > reset $end
+$var wire 1 ? cardIn $end
+$var wire 1 @ moneyDeposited $end
+$var wire 1 A ejectCard $end
+$var wire 1 B Another_Operation $end
+$var wire 1 C Language $end
+$var wire 1 D password [3] $end
+$var wire 1 E password [2] $end
+$var wire 1 F password [1] $end
+$var wire 1 G password [0] $end
+$var wire 1 H opCode [1] $end
+$var wire 1 I opCode [0] $end
+$var integer 32 J inputAmount $end
+$var reg 1 K ATM_Usage_Finished $end
+$var reg 1 L Balance_Shown $end
+$var reg 1 M Deposited_Successfully $end
+$var reg 1 N Withdrawed_Successfully $end
+$var reg 1 O correctPassword $end
+$var reg 32 P Existing_Balance [31:0] $end
+$var reg 4 Q Correct_Pass [3:0] $end
+$var reg 4 R current_state [3:0] $end
+$var reg 4 S next_state [3:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+1!
+0"
+0#
+0$
+x%
+0&
+0'
+b0 (
+b0 )
+xK
+xL
+xM
+xN
+xO
+b11110100001001000000 P
+b1010 Q
+bx R
+b0 S
+b0 3
+b1 4
+b10 5
+b11 6
+b100 7
+b101 8
+b110 9
+b111 :
+b1000 ;
+b1001 <
+b0 *
+bx 0
+bx 1
+b0 2
+bx J
+x+
+x,
+x-
+x.
+x/
+0C
+0I
+0H
+0G
+0F
+0E
+0D
+0B
+xA
+0@
+0?
+0>
+1=
+$end
+#5
+0!
+0=
+#10
+b10010010000101010011001000000110 2
+b1000000100010010101110011001111 2
+1'
+b100100001001101010011000100 2
+1$
+b110001111100000101010011110101 2
+1#
+b10000110101110010111100100110010 2
+1&
+b11000110110111111001011100001011 2
+b1 )
+b110010110000101000001011010000 2
+b10110010110000101000010001100101 *
+b110010110000101000001011010001 2
+1!
+1B
+1C
+1@
+1?
+1I
+1=
+b0 R
+b1001 S
+0K
+0L
+0M
+0N
+0O
+0+
+0,
+0-
+0.
+0/
+#15
+0!
+0=
+#20
+1!
+1=
+b1001 R
+b1 S
+#25
+0!
+0=
+#30
+1!
+1=
+b1 R
+#35
+0!
+0=
+#40
+1!
+1=
+#45
+0!
+0=
+#50
+1!
+1=
+#55
+0!
+0=
+#60
+1!
+1=
+#65
+0!
+0=
+#70
+1!
+1=
+#75
+0!
+0=
+#80
+1!
+1=
+#85
+0!
+0=
+#90
+1!
+1=
+#95
+0!
+0=
+#100
+1!
+1=
+#105
+0!
+0=
+#110
+1!
+1=
+#115
+0!
+0=
+#120
+1!
+1=
+#125
+0!
+0=
+#130
+1!
+1=
+#135
+0!
+0=
+#140
+1!
+1=
+#145
+0!
+0=
+#150
+1!
+1=
+#155
+0!
+0=
+#160
+1!
+1=
+#165
+0!
+0=
+#170
+1!
+1=
+#175
+0!
+0=
+#180
+1!
+1=
+#185
+0!
+0=
+#190
+1!
+1=
+#195
+0!
+0=
+#200
+1!
+1=
+#205
+0!
+0=
+#210
+1!
+1=
