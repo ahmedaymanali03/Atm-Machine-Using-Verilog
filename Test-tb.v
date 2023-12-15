@@ -11,7 +11,6 @@ ATM uUT(
 .reset(Reset_tb),  
 .Language(Language_tb), 
   
-// .Service_Chosen(Service_Chosen_tb),
 .cardIn(cardIn_tb),  
 .ejectCard(ejectCard_tb),
 .Balance_Updated(Balance_Updated_tb),
@@ -131,16 +130,13 @@ Reset_tb=1'b0;
 #10
     //randomized testing
     Reset_tb<=0;
-   // password_tb<=4'b1010;
     cardIn_tb<=1;
     ejectCard_tb<=0;
     Language_tb=1;
     Timer_tb=0;
-//@(posedge Clock_tb);
 for(i=0;i<999;i=i+1) begin
 //#10
 @(posedge Clock_tb);
-    //Reset_tb=$random();
    
    
     opCode_tb=$random();

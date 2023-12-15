@@ -9,15 +9,15 @@ module ATM (clk,reset,cardIn,ejectCard,correctPassword,timer,password,opCode,Cur
     reg  [31:0] Existing_Balance = 32'h000F4240;
    
     reg [3:0]  Correct_Pass = 4'b1010;
-    localparam  [3:0] Idle = 4'b0000, //Done
-                      enter_Pin = 4'b0001,//DONE
-                      choose_Transaction = 4'b0010,//DONE
-                      deposit = 4'b0011, //salma :)
-                      withdraw= 4'b0100, //salma  :)
-                      check_Balance= 4'b0101, //ayman DONE
-                      update_balance= 4'b0110, //ayman DONE
-                      display_Balance= 4'b0111, //kassab DONE
-                      eject_Card= 4'b1000,//kassab DONE
+    localparam  [3:0] Idle = 4'b0000, 
+                      enter_Pin = 4'b0001,
+                      choose_Transaction = 4'b0010,
+                      deposit = 4'b0011, 
+                      withdraw= 4'b0100, 
+                      check_Balance= 4'b0101, 
+                      update_balance= 4'b0110,
+                      display_Balance= 4'b0111,
+                      eject_Card= 4'b1000,
                       choose_Language= 4'b1001;
 
     reg   [3:0]     current_state,
